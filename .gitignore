@@ -1,0 +1,77 @@
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+# Ignore IntelliJ IDEA project files
+.idea/
+*.iml
+
+# Ignore build directories
+/out/
+build/
+target/
+
+# Ignore dependency directories
+/.gradle/
+/.gradle/
+/mvn/
+/.mvn/
+
+# Ignore compiled Java files
+*.class
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore JAR and WAR files (if not needed in source control)
+*.jar
+*.war
+
+# Ignore IntelliJ workspace files
+.idea/modules.xml
+.idea/.name
+.idea/workspace.xml
+.idea/libraries
+.idea/shelf
+
+# Ignore Maven or Gradle wrapper files (optional)
+.gradle/
+mvnw
+mvnw.cmd
+
+# Ignore generated files
+*.generated/
