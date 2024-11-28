@@ -1,4 +1,4 @@
-package dao.abs.Account;
+package dao.abs.account;
 
 import model.Account;
 import model.AccountStatus;

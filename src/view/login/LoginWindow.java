@@ -20,27 +20,6 @@ public class LoginWindow extends JFrame  {
     public LoginWindow(){
         initializationComponents();
         initializationTableComponents();
-
-        setupLoginBtnAction();
-        setupSignupBtnAction();
-    }
-
-    private void setupSignupBtnAction() {
-        this.signupBtn.addActionListener(e -> signupBtnAction());
-    }
-
-    private void signupBtnAction() {
-        // create employee form
-        new CustomerCreatePage();
-    }
-
-    private void setupLoginBtnAction() {
-        this.loginBtn.addActionListener(e -> loginBtnAction());
-    }
-
-    private void loginBtnAction() {
-        // home page
-
     }
 
     private void initializationTableComponents(){
@@ -102,6 +81,13 @@ public class LoginWindow extends JFrame  {
 
     }
 
+    public String getUserName(){
+        return this.usernameTF.getText();
+    }
+
+    public String getPassword(){
+        return new String(this.passwordTF.getPassword());
+    }
 
     public JButton getLoginBtn() {
         return loginBtn;

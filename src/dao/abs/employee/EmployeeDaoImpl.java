@@ -148,9 +148,25 @@ public class EmployeeDaoImpl extends EmployeeDao {
 
 
     @Override
-    public Employee validateEmployee(String email,String password) {
+    public Employee validateEmployee(String username,String password) {
 
-        return null;
+        Employee employee = null;
+        try {
+            String query = "Select * from "+this.getTableName()+" where username = ? AND password = ?";
+            Connection connection = connectionFactory.createConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            employee = this.converToObject(resultSet);
+        }catch(SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+        finally {
+            this.connectionFactory.closeConnection();
+        }
+        return employee;
 
     }
 

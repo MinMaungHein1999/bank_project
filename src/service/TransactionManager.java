@@ -1,6 +1,6 @@
 package service;
-import dao.abs.Account.AccountDao;
-import dao.abs.Account.AccountDaoImpl;
+import dao.abs.account.AccountDao;
+import dao.abs.account.AccountDaoImpl;
 import dao.abs.transaction.AccountTransactionDao;
 import dao.abs.transaction.AccountTransactionDaoImpl;
 import dto.AccountTransactionDto;

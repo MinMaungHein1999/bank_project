@@ -1,4 +1,4 @@
-package dao.abs.Account;
+package dao.abs.account;
 import dao.AbstractDao;
 import model.Account;
 

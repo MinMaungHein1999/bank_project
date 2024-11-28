@@ -1,5 +1,10 @@
+import controller.LoginController;
+import view.login.LoginWindow;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+        new LoginController();
+
     }
 }

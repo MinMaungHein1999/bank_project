@@ -1,7 +1,7 @@
 package dao.abs.card;
 
-import dao.abs.Account.AccountDao;
-import dao.abs.Account.AccountDaoImpl;
+import dao.abs.account.AccountDao;
+import dao.abs.account.AccountDaoImpl;
 import model.Account;
 import model.Card;
 
