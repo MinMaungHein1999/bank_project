@@ -41,7 +41,7 @@ public class EmployeeDaoImpl extends EmployeeDao {
     @Override
     public String getInsertQuery() {
         //insert into employees(name,email,password,phone_number,status,position,department,confirm_at,branch_id,users_role_id,created_by,updated_by)
-        return "insert into "+this.getTableName()+" (name, email, password, phone_number, status, position, department, confirmed_at, users_role_id, branch_id, created_by, updated_by)" +
+        return "insert into "+this.getTableName()+" (username, email, password, phone_number, status, position, department, confirmed_at, users_role_id, branch_id, created_by, updated_by)" +
                 " values (?,?,?,?,?,?,?,?,?,?,?,?)";
     }
 
@@ -57,18 +57,30 @@ public class EmployeeDaoImpl extends EmployeeDao {
 
     @Override
     public void prepareParams(PreparedStatement preparedStatement, Employee object) {
-//        try {
-//            preparedStatement.setString(1, object.getfirstName());
-//            preparedStatement.setString(2, object.getlastName());
-//            preparedStatement.setString(3, object.getEmail());
-//            preparedStatement.setString(4, object.getPhoneNumber());
-//            preparedStatement.setString(5, object.getPosition());
-//            preparedStatement.setFloat(6, (float)object.getSalary());
-//            preparedStatement.setInt(7, object.getBranch().getId());
-//            preparedStatement.setString(8, object.getEncryptPassword());
-//        }catch(SQLException e) {
-//            System.out.print("SQL Exception for : "+e.getMessage());
-//        }
+        try {
+            preparedStatement.setString(1, object.getUsername());
+            preparedStatement.setString(2, object.getEmail());
+            preparedStatement.setString(3, object.getPassword());
+            preparedStatement.setString(4, object.getPhoneNumber());
+            preparedStatement.setInt(5, object.getStatus().getValue());
+            preparedStatement.setString(6, object.getPosition());
+            preparedStatement.setString(7, object.getDepartment());
+            preparedStatement.setDate(8, object.getConfirmedAt());
+            preparedStatement.setInt(9, object.getUsersRole().getId());
+            preparedStatement.setInt(10, object.getBranch().getId());
+            if(object.getCreatedBy() != null) {
+                preparedStatement.setInt(11, object.getCreatedBy().getId());
+            }else{
+                preparedStatement.setNull(11, Types.INTEGER);
+            }
+            if(object.getUpdatedBy() != null) {
+                preparedStatement.setInt(12, object.getUpdatedBy().getId());
+            }else{
+                preparedStatement.setNull(12, Types.INTEGER);
+            }
+        }catch(SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
 
     }
 
