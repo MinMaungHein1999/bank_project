@@ -1,9 +1,12 @@
 package controller;
 
 import dao.abs.branch.BranchDaoImpl;
+import dao.abs.employee.EmployeeDao;
+import dao.abs.employee.EmployeeDaoImpl;
 import dao.abs.user_roles.UserRoleDaoImpl;
 import dto.EmployeeDto;
 import model.Branch;
+import model.Employee;
 import model.UsersRole;
 import service.EmployeeService;
 import view.employee.EmployeeCreateWindow;
@@ -13,6 +16,7 @@ public class EmployeeCreateController {
     private UserRoleDaoImpl userRoleDao;
     private EmployeeCreateWindow window;
     private EmployeeService empService;
+    private EmployeeDao employeeDao;
 
     public EmployeeCreateController(){
 
@@ -20,6 +24,8 @@ public class EmployeeCreateController {
         this.branchDao = new BranchDaoImpl();
         this.window = new EmployeeCreateWindow();
         this.empService = new EmployeeService();
+        this.employeeDao = new EmployeeDaoImpl();
+
         prepareFormData();
         addCreateBtnAction();
     }
@@ -30,7 +36,9 @@ public class EmployeeCreateController {
 
     private void createBtnAction() {
         EmployeeDto employeeDto =  getEmpInfo();
-        this.empService.createProcess(employeeDto);
+        Employee employee = this.empService.createProcess(employeeDto);
+        this.window.dispose();
+        new OtpController(employee);
     }
 
     private EmployeeDto getEmpInfo(){

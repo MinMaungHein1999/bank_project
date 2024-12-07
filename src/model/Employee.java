@@ -12,6 +12,9 @@ public class Employee {
     private String position;
     private String department;
     private Date confirmedAt;
+
+
+
     private Branch branch;
     private UsersRole usersRole;
     private Date cratedAt;
@@ -137,5 +140,26 @@ public class Employee {
 
     public void setUpdatedBy(Employee updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", status=" + status +
+                ", position='" + position + '\'' +
+                ", department='" + department + '\'' +
+                ", confirmedAt=" + confirmedAt +
+                ", branch=" + branch +
+                ", usersRole=" + usersRole +
+                ", cratedAt=" + cratedAt +
+                ", updatedAt=" + updatedAt +
+                ", CreatedBy=" + CreatedBy +
+                ", updatedBy=" + updatedBy +
+                '}';
     }
 }

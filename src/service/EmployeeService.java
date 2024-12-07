@@ -13,10 +13,11 @@ public class EmployeeService {
         this.employeeDao = new EmployeeDaoImpl();
     }
 
-    public void createProcess(EmployeeDto employeeDto){
+    public Employee createProcess(EmployeeDto employeeDto){
         Employee employee = EmployeeConverter.dtoToEmployee(employeeDto);
         employee.setCreatedBy(AuthenticationService.currentUser);
         employee.setUpdatedBy(AuthenticationService.currentUser);
-        this.employeeDao.create(employee);
+        Employee createdEmployee = this.employeeDao.create(employee);
+        return employee;
     }
 }

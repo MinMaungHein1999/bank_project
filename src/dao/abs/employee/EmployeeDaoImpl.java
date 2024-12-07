@@ -236,4 +236,22 @@ public class EmployeeDaoImpl extends EmployeeDao {
             this.connectionFactory.closeConnection();
         }
     }
+
+    @Override
+    public void confirmByEmp(Employee employee) {
+        try {
+            String query = "Update "+this.getTableName()+" set confirmed_at = ? WHERE id = ?";
+            Connection connection = connectionFactory.createConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            Date sqlDate = new Date(System.currentTimeMillis());
+            prepareStatement.setDate(1,sqlDate);
+            prepareStatement.setInt(2,employee.getId());
+            prepareStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+        finally {
+            this.connectionFactory.closeConnection();
+        }
+    }
 }
