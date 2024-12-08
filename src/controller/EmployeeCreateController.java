@@ -11,6 +11,8 @@ import model.UsersRole;
 import service.EmployeeService;
 import view.employee.EmployeeCreateWindow;
 
+import javax.swing.*;
+
 public class EmployeeCreateController {
     private BranchDaoImpl branchDao;
     private UserRoleDaoImpl userRoleDao;
@@ -38,6 +40,7 @@ public class EmployeeCreateController {
         EmployeeDto employeeDto =  getEmpInfo();
         Employee employee = this.empService.createProcess(employeeDto);
         this.window.dispose();
+        JOptionPane.showMessageDialog(this.window, "Employee Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
         new OtpController(employee);
     }
 

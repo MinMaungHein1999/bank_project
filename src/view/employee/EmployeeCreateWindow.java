@@ -75,8 +75,6 @@ public class EmployeeCreateWindow extends JFrame {
         // Buttons
         this.createButton = new JButton("Create");
         this.cancelButton = new JButton("Cancel");
-
-        addCreateButtonAction();
         addCancelButtonAction();
     }
 
@@ -126,15 +124,6 @@ public class EmployeeCreateWindow extends JFrame {
 
         gbc.gridx = 1;
         this.add(component, gbc);
-    }
-
-    private void addCreateButtonAction() {
-        this.createButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(EmployeeCreateWindow.this, "Employee Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
     }
 
     private void addCancelButtonAction() {

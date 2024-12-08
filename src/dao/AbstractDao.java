@@ -43,10 +43,13 @@ public abstract class AbstractDao<T> {
             this.prepareParams(preparedStatement, object);
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            System.out.print(generatedKeys);
             if(generatedKeys.next()){
+                System.out.print("generatedKeys : " + generatedKeys.getInt(1));
                 createdObject = this.getById(generatedKeys.getInt(1));
             }
             this.connectionFactory.closeConnection();
+            System.out.print("Created Object : "+ createdObject);
             return createdObject;
         }catch(SQLException e) {
             System.out.print("SQL Exception for : "+e.getMessage());

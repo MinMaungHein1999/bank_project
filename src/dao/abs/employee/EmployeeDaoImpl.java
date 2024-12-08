@@ -1,11 +1,23 @@
 package dao.abs.employee;
 
+import dao.abs.branch.BranchDao;
+import dao.abs.branch.BranchDaoImpl;
+import dao.abs.user_roles.UserRoleDao;
+import dao.abs.user_roles.UserRoleDaoImpl;
+import model.Branch;
 import model.Employee;
+import model.EmployeeStatus;
+import model.UsersRole;
 
 import java.sql.*;
 
 public class EmployeeDaoImpl extends EmployeeDao {
+
+    private BranchDao branchDao;
+    private UserRoleDao usersRoleDao;
     public EmployeeDaoImpl() {
+        this.branchDao = new BranchDaoImpl();
+        this.usersRoleDao = new UserRoleDaoImpl();
     }
 
     @Override
@@ -27,10 +39,19 @@ public class EmployeeDaoImpl extends EmployeeDao {
            String department = resultset.getString("department");
            Date confirmedAt = resultset.getDate("confirmed_at");
            int users_role_id =  resultset.getInt("users_role_id");
-            int branchID = resultset.getInt("branch_id");
-            int created_by = resultset.getInt("created_by");
-            int updated_by = resultset.getInt("updated_by");
+           int branchID = resultset.getInt("branch_id");
+           Date createdAt =resultset.getDate("created_at");
+           Date updatedAt = resultset.getDate("updated_at");
+           int created_by = resultset.getInt("created_by");
+           int updated_by = resultset.getInt("updated_by");
 
+           Branch branch = this.branchDao.getById(branchID);
+           UsersRole usersRole= this.usersRoleDao.getById(users_role_id);
+           Employee createdBy = this.getById(created_by);
+           Employee updatedBy= this.getById(updated_by);
+
+           employee = new Employee(id, username, email, password, phoneNumber, EmployeeStatus.fromInt(status),
+                                    position, department, confirmedAt, branch, usersRole, createdAt, updatedAt, createdBy, updatedBy);
 
         }catch(SQLException e) {
             System.out.print("SQL Exception for : "+e.getMessage());

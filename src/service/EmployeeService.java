@@ -17,7 +17,8 @@ public class EmployeeService {
         Employee employee = EmployeeConverter.dtoToEmployee(employeeDto);
         employee.setCreatedBy(AuthenticationService.currentUser);
         employee.setUpdatedBy(AuthenticationService.currentUser);
-        Employee createdEmployee = this.employeeDao.create(employee);
-        return employee;
+        this.employeeDao.create(employee);
+        Employee createdEmployee= this.employeeDao.getEmployeeByEmployeeEmail(employee.getEmail());
+        return createdEmployee;
     }
 }

@@ -12,15 +12,14 @@ public class OtpService {
 
     public OtpService() {
         this.otpCode = OtpGenerator.generateOTP(5);
-        this.emailSender = new EmailSender();
     }
 
     public void sendOtp(String toEmail, String subject) {
         this.toEmail = toEmail;
         this.subject = subject;
-
         String emailBody = generateHtmlTemplate(this.otpCode);
-        this.emailSender.sentEmailAction(this.subject, emailBody, this.toEmail);
+        this.emailSender = new EmailSender(this.subject, emailBody, this.toEmail);
+        this.emailSender.start();
     }
 
     private String generateHtmlTemplate(String otpCode) {
