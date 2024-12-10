@@ -22,9 +22,6 @@ public class EmployeeCreateWindow extends JFrame {
     private JLabel selectUserRole;
     private JLabel selectBranch;
     private JComboBox<UsersRole> cbUserRoles;
-
-
-
     private JComboBox<Branch> cbBranches;
     private JTextField userNameTF;
     private JTextField emailTF;
@@ -34,6 +31,7 @@ public class EmployeeCreateWindow extends JFrame {
     private JTextField positionTF;
     private JTextField departmentTF;
 
+
     private JButton createButton;
     private JButton cancelButton;
 
@@ -41,7 +39,6 @@ public class EmployeeCreateWindow extends JFrame {
         initializeComponents();
         configureLayout();
         addComponentsToUI();
-
         this.setTitle("Create Employee");
         this.setSize(600, 700);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -78,8 +75,6 @@ public class EmployeeCreateWindow extends JFrame {
         // Buttons
         this.createButton = new JButton("Create");
         this.cancelButton = new JButton("Cancel");
-
-        addCreateButtonAction();
         addCancelButtonAction();
     }
 
@@ -131,15 +126,6 @@ public class EmployeeCreateWindow extends JFrame {
         this.add(component, gbc);
     }
 
-    private void addCreateButtonAction() {
-        this.createButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(EmployeeCreateWindow.this, "Employee Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-    }
-
     private void addCancelButtonAction() {
         this.cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -175,5 +161,69 @@ public class EmployeeCreateWindow extends JFrame {
 
     public void setCbBranches(JComboBox<Branch> cbBranches) {
         this.cbBranches = cbBranches;
+    }
+
+    public JButton getCreateButton() {
+        return createButton;
+    }
+
+    public JPasswordField getConfirmPasswordTF() {
+        return confirmPasswordTF;
+    }
+
+    public void setConfirmPasswordTF(JPasswordField confirmPasswordTF) {
+        this.confirmPasswordTF = confirmPasswordTF;
+    }
+
+    public JTextField getPhoneNumberTF() {
+        return phoneNumberTF;
+    }
+
+    public void setPhoneNumberTF(JTextField phoneNumberTF) {
+        this.phoneNumberTF = phoneNumberTF;
+    }
+
+    public JTextField getPositionTF() {
+        return positionTF;
+    }
+
+    public void setPositionTF(JTextField positionTF) {
+        this.positionTF = positionTF;
+    }
+
+    public void setCreateButton(JButton createButton) {
+        this.createButton = createButton;
+    }
+
+    public JTextField getDepartmentTF() {
+        return departmentTF;
+    }
+
+    public void setDepartmentTF(JTextField departmentTF) {
+        this.departmentTF = departmentTF;
+    }
+
+    public JPasswordField getPasswordTF() {
+        return passwordTF;
+    }
+
+    public void setPasswordTF(JPasswordField passwordTF) {
+        this.passwordTF = passwordTF;
+    }
+
+    public JTextField getEmailTF() {
+        return emailTF;
+    }
+
+    public void setEmailTF(JTextField emailTF) {
+        this.emailTF = emailTF;
+    }
+
+    public JTextField getUserNameTF() {
+        return userNameTF;
+    }
+
+    public void setUserNameTF(JTextField userNameTF) {
+        this.userNameTF = userNameTF;
     }
 }

@@ -18,6 +18,26 @@ public class Employee {
     private Date updatedAt;
     private Employee CreatedBy;
     private Employee updatedBy;
+    public Employee(){
+
+    }
+    public Employee(int id, String username, String email, String password, String phoneNumber, EmployeeStatus status, String position, String department, Date confirmedAt, Branch branch, UsersRole usersRole, Date cratedAt, Date updatedAt, Employee createdBy, Employee updatedBy) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.status = status;
+        this.position = position;
+        this.department = department;
+        this.confirmedAt = confirmedAt;
+        this.branch = branch;
+        this.usersRole = usersRole;
+        this.cratedAt = cratedAt;
+        this.updatedAt = updatedAt;
+        CreatedBy = createdBy;
+        this.updatedBy = updatedBy;
+    }
 
     public int getId() {
         return id;
@@ -137,5 +157,26 @@ public class Employee {
 
     public void setUpdatedBy(Employee updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", status=" + status +
+                ", position='" + position + '\'' +
+                ", department='" + department + '\'' +
+                ", confirmedAt=" + confirmedAt +
+                ", branch=" + branch +
+                ", usersRole=" + usersRole +
+                ", cratedAt=" + cratedAt +
+                ", updatedAt=" + updatedAt +
+                ", CreatedBy=" + CreatedBy +
+                ", updatedBy=" + updatedBy +
+                '}';
     }
 }
