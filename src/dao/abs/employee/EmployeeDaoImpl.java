@@ -9,6 +9,7 @@ import model.Employee;
 import model.EmployeeStatus;
 import model.UsersRole;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 
 public class EmployeeDaoImpl extends EmployeeDao {
@@ -177,6 +178,22 @@ public class EmployeeDaoImpl extends EmployeeDao {
             System.out.print("SQL Exception for isPhoneNumberExists: "+e.getMessage());
         }
         return exists;
+    }
+
+    @Override
+    public boolean isUsernameExists(String username) {
+        boolean exist = false;
+        try {
+            String query = "SELECT id FROM " + this.getTableName() + " WHERE username = ?";
+            Connection connection = connectionFactory.createConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            exist = resultSet.next();
+        } catch (SQLException e) {
+            System.out.println("SQL Exception for isUserNameExists: " + e.getMessage());
+        }
+        return exist;
     }
 
 
