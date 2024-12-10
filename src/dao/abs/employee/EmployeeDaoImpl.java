@@ -1,11 +1,23 @@
 package dao.abs.employee;
 
+import dao.abs.branch.BranchDao;
+import dao.abs.branch.BranchDaoImpl;
+import dao.abs.user_roles.UserRoleDao;
+import dao.abs.user_roles.UserRoleDaoImpl;
+import model.Branch;
 import model.Employee;
+import model.EmployeeStatus;
+import model.UsersRole;
 
 import java.sql.*;
 
 public class EmployeeDaoImpl extends EmployeeDao {
+
+    private BranchDao branchDao;
+    private UserRoleDao usersRoleDao;
     public EmployeeDaoImpl() {
+        this.branchDao = new BranchDaoImpl();
+        this.usersRoleDao = new UserRoleDaoImpl();
     }
 
     @Override
@@ -27,10 +39,19 @@ public class EmployeeDaoImpl extends EmployeeDao {
            String department = resultset.getString("department");
            Date confirmedAt = resultset.getDate("confirmed_at");
            int users_role_id =  resultset.getInt("users_role_id");
-            int branchID = resultset.getInt("branch_id");
-            int created_by = resultset.getInt("created_by");
-            int updated_by = resultset.getInt("updated_by");
+           int branchID = resultset.getInt("branch_id");
+           Date createdAt =resultset.getDate("created_at");
+           Date updatedAt = resultset.getDate("updated_at");
+           int created_by = resultset.getInt("created_by");
+           int updated_by = resultset.getInt("updated_by");
 
+           Branch branch = this.branchDao.getById(branchID);
+           UsersRole usersRole= this.usersRoleDao.getById(users_role_id);
+           Employee createdBy = this.getById(created_by);
+           Employee updatedBy= this.getById(updated_by);
+
+           employee = new Employee(id, username, email, password, phoneNumber, EmployeeStatus.fromInt(status),
+                                    position, department, confirmedAt, branch, usersRole, createdAt, updatedAt, createdBy, updatedBy);
 
         }catch(SQLException e) {
             System.out.print("SQL Exception for : "+e.getMessage());
@@ -41,7 +62,7 @@ public class EmployeeDaoImpl extends EmployeeDao {
     @Override
     public String getInsertQuery() {
         //insert into employees(name,email,password,phone_number,status,position,department,confirm_at,branch_id,users_role_id,created_by,updated_by)
-        return "insert into "+this.getTableName()+" (name, email, password, phone_number, status, position, department, confirmed_at, users_role_id, branch_id, created_by, updated_by)" +
+        return "insert into "+this.getTableName()+" (username, email, password, phone_number, status, position, department, confirmed_at, users_role_id, branch_id, created_by, updated_by)" +
                 " values (?,?,?,?,?,?,?,?,?,?,?,?)";
     }
 
@@ -57,18 +78,30 @@ public class EmployeeDaoImpl extends EmployeeDao {
 
     @Override
     public void prepareParams(PreparedStatement preparedStatement, Employee object) {
-//        try {
-//            preparedStatement.setString(1, object.getfirstName());
-//            preparedStatement.setString(2, object.getlastName());
-//            preparedStatement.setString(3, object.getEmail());
-//            preparedStatement.setString(4, object.getPhoneNumber());
-//            preparedStatement.setString(5, object.getPosition());
-//            preparedStatement.setFloat(6, (float)object.getSalary());
-//            preparedStatement.setInt(7, object.getBranch().getId());
-//            preparedStatement.setString(8, object.getEncryptPassword());
-//        }catch(SQLException e) {
-//            System.out.print("SQL Exception for : "+e.getMessage());
-//        }
+        try {
+            preparedStatement.setString(1, object.getUsername());
+            preparedStatement.setString(2, object.getEmail());
+            preparedStatement.setString(3, object.getPassword());
+            preparedStatement.setString(4, object.getPhoneNumber());
+            preparedStatement.setInt(5, object.getStatus().getValue());
+            preparedStatement.setString(6, object.getPosition());
+            preparedStatement.setString(7, object.getDepartment());
+            preparedStatement.setDate(8, object.getConfirmedAt());
+            preparedStatement.setInt(9, object.getUsersRole().getId());
+            preparedStatement.setInt(10, object.getBranch().getId());
+            if(object.getCreatedBy() != null) {
+                preparedStatement.setInt(11, object.getCreatedBy().getId());
+            }else{
+                preparedStatement.setNull(11, Types.INTEGER);
+            }
+            if(object.getUpdatedBy() != null) {
+                preparedStatement.setInt(12, object.getUpdatedBy().getId());
+            }else{
+                preparedStatement.setNull(12, Types.INTEGER);
+            }
+        }catch(SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
 
     }
 
@@ -216,6 +249,24 @@ public class EmployeeDaoImpl extends EmployeeDao {
             Date sqlDate = new Date(System.currentTimeMillis());
             prepareStatement.setDate(1,sqlDate);
             prepareStatement.setInt(2, employee.getId());
+            prepareStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+        finally {
+            this.connectionFactory.closeConnection();
+        }
+    }
+
+    @Override
+    public void confirmByEmp(Employee employee) {
+        try {
+            String query = "Update "+this.getTableName()+" set confirmed_at = ? WHERE id = ?";
+            Connection connection = connectionFactory.createConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            Date sqlDate = new Date(System.currentTimeMillis());
+            prepareStatement.setDate(1,sqlDate);
+            prepareStatement.setInt(2,employee.getId());
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.print("SQL Exception for : "+e.getMessage());

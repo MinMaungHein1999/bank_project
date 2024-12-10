@@ -1,23 +1,66 @@
 package controller;
 
 import dao.abs.branch.BranchDaoImpl;
+import dao.abs.employee.EmployeeDao;
+import dao.abs.employee.EmployeeDaoImpl;
 import dao.abs.user_roles.UserRoleDaoImpl;
+import dto.EmployeeDto;
 import model.Branch;
+import model.Employee;
 import model.UsersRole;
+import service.EmployeeService;
 import view.employee.EmployeeCreateWindow;
+
+import javax.swing.*;
 
 public class EmployeeCreateController {
     private BranchDaoImpl branchDao;
     private UserRoleDaoImpl userRoleDao;
     private EmployeeCreateWindow window;
+    private EmployeeService empService;
+    private EmployeeDao employeeDao;
+
     public EmployeeCreateController(){
 
         this.userRoleDao = new UserRoleDaoImpl();
         this.branchDao = new BranchDaoImpl();
+        this.window = new EmployeeCreateWindow();
+        this.empService = new EmployeeService();
+        this.employeeDao = new EmployeeDaoImpl();
 
+        prepareFormData();
+        addCreateBtnAction();
+    }
+
+    public void addCreateBtnAction(){
+        this.window.getCreateButton().addActionListener(e -> createBtnAction());
+    }
+
+    private void createBtnAction() {
+        EmployeeDto employeeDto =  getEmpInfo();
+        Employee employee = this.empService.createProcess(employeeDto);
+        this.window.dispose();
+        JOptionPane.showMessageDialog(this.window, "Employee Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        new OtpController(employee);
+    }
+
+    private EmployeeDto getEmpInfo(){
+        String username = this.window.getUserNameTF().getText();
+        String email = this.window.getEmailTF().getText();
+        String password = new String(this.window.getPasswordTF().getPassword());
+        String confirmPassword = new String(this.window.getConfirmPasswordTF().getPassword());
+        String phone = this.window.getPhoneNumberTF().getText();
+        String department = this.window.getDepartmentTF().getText();
+        Branch selectedBranch = (Branch)this.window.getCbBranches().getSelectedItem();
+        UsersRole usersRole = (UsersRole)this.window.getCbUserRoles().getSelectedItem();
+        String position = this.window.getPositionTF().getText();
+        EmployeeDto employeeDto = new EmployeeDto(username, email, phone, password, confirmPassword, position, usersRole, selectedBranch, department);
+        return employeeDto;
+    }
+
+    public void prepareFormData(){
         Branch[] branches = this.branchDao.getAll().toArray(new Branch[0]);
         UsersRole[] usersRolesArr = this.userRoleDao.getAll().toArray(new UsersRole[0]);
-        this.window = new EmployeeCreateWindow();
 
         for(Branch branch : branches){
             this.window.getCbBranches().addItem(branch);

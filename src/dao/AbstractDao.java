@@ -34,19 +34,29 @@ public abstract class AbstractDao<T> {
 
     public abstract void prepareParamsForUpdate(PreparedStatement preparedStatement,T object);
 
-    public void create(T object) {
+    public T create(T object) {
+        T createdObject = null;
         try {
             String query = this.getInsertQuery();
             Connection connection = connectionFactory.createConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             this.prepareParams(preparedStatement, object);
             preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            System.out.print(generatedKeys);
+            if(generatedKeys.next()){
+                System.out.print("generatedKeys : " + generatedKeys.getInt(1));
+                createdObject = this.getById(generatedKeys.getInt(1));
+            }
             this.connectionFactory.closeConnection();
+            System.out.print("Created Object : "+ createdObject);
+            return createdObject;
         }catch(SQLException e) {
             System.out.print("SQL Exception for : "+e.getMessage());
         }finally{
             this.connectionFactory.closeConnection();
         }
+        return null;
     }
 
 
