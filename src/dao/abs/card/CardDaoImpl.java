@@ -10,10 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CardDaoImpl extends CardDao{
+    private AccountDao accountDao;
 
-
+    public CardDaoImpl(){
+        this.accountDao = new AccountDaoImpl();
+    }
     @Override
     public String getTableName() {
         return "cards";
@@ -30,20 +35,14 @@ public class CardDaoImpl extends CardDao{
             String secCode = resultset.getString("security_code");
             int acc_id = resultset.getInt("account_id");
 
+
+            Account account = this.accountDao.getById(acc_id);
             card = new Card();
             card.setId(id);
             card.setCardNumber(number);
             card.setCardType(cardType);
             card.setCardExpireDate((java.sql.Date) expireDate);
             card.setSecurityCode(secCode);
-
-            try{AccountDao accountDao = new AccountDaoImpl();
-                Account account = accountDao.getById(acc_id);
-                card.setAccountId(account);
-            }catch (Exception e){
-                System.out.print("Error: "+e.getMessage());
-//                e.printStackTrace();
-            }
 
         }catch (SQLException e){
             System.out.print("SQL Exception for : "+e.getMessage());
@@ -75,6 +74,7 @@ public class CardDaoImpl extends CardDao{
             preparedStatement.setDate(3,object.getCardExpireDate());
             preparedStatement.setString(4,object.getSecurityCode());
             preparedStatement.setObject(5,object.getAccountId());
+
         }catch(SQLException e){
             System.out.print("SQL Exception for: "+e.getMessage());
         }
@@ -85,28 +85,37 @@ public class CardDaoImpl extends CardDao{
 
     }
 
-
+//
 
     @Override
-    public Card getCardByAccountID(int accID) {
+    public List<Card> getCardsByAccountID(int accID) {
         Card card = null;
+        List<Card> cards = new ArrayList<>();
         // select * from cards where account_id = ?
         try{String query = "select * from "+ this.getTableName()+" where account_id = ?";
             Connection connection = connectionFactory.createConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1,accID);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                int card_id  = resultSet.getInt("id");
-                card = this.getById(card_id);
-            }} catch (SQLException e){
+            while (resultSet.next()) {
+                card = new Card();
+                card.setId(resultSet.getInt("id"));
+                card.setCardNumber(resultSet.getString("number"));
+                card.setCardType(resultSet.getInt("card_type"));
+                card.setCardExpireDate(resultSet.getDate("expire_date"));
+                card.setSecurityCode(resultSet.getString("security_code"));
+
+                cards.add(card);
+            }
+        } catch (SQLException e){
             System.out.print("SQL Exception for: "+e.getMessage());
         }finally {
             this.connectionFactory.closeConnection();
 
         }
-    return card;
+    return cards;
     }
+
 
     @Override
     public boolean isCardExists(String cardNumber) {
@@ -126,8 +135,21 @@ public class CardDaoImpl extends CardDao{
 
     @Override
     public String getCardExpire(Date withinDate) {
-        return null; // expireဖြစ်ဖို့ ဘယ်နရက်ကျန်သေးတယ်ဆိုတာတွက်ဖို့
+        if (withinDate == null) {
+            return "Invalid date provided.";
+        }
+
+        Date currentDate = new Date(System.currentTimeMillis());
+        long timeDifference = withinDate.getTime() - currentDate.getTime();
+
+        if (timeDifference < 0) {
+            return "Card has already expired.";
+        }
+
+        long daysRemaining = timeDifference / (1000 * 60 * 60 * 24);
+        return daysRemaining + " days remaining until expiration.";
     }
+
 
 
 }
