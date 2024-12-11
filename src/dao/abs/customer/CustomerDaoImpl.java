@@ -113,7 +113,35 @@ public class CustomerDaoImpl extends CustomerDao{
     @Override
     public void prepareParams(PreparedStatement preparedStatement, Customer object) {
 
+        try {
+            preparedStatement.setString(1, object.getFirstName());
+            preparedStatement.setString(2, object.getLastName());
+            preparedStatement.setString(3, object.getEmail());
+            preparedStatement.setString(4, object.getNrc());
+            preparedStatement.setString(5, object.getPhone());
+            preparedStatement.setString(6, object.getAddress());
+            preparedStatement.setInt(7, object.getStatus().getValue());
+            preparedStatement.setDate(8, object.getDateOfBirth());
+            preparedStatement.setDate(9, object.getConfirmedAt());
+            preparedStatement.setDate(10, object.getCreatedAt());
+            preparedStatement.setDate(11, object.getUpdatedAt());
+            if(object.getCreatedBy() != null) {
+                preparedStatement.setInt(12, object.getCreatedBy().getId());
+            }else{
+                preparedStatement.setNull(12, Types.INTEGER);
+            }
+            if(object.getUpdatedBy() != null) {
+                preparedStatement.setInt(13, object.getUpdatedBy().getId());
+            }else{
+                preparedStatement.setNull(13, Types.INTEGER);
+            }
+        }catch(SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+
     }
 
-
 }
+
+
+

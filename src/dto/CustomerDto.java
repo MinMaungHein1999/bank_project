@@ -1,23 +1,31 @@
-package model;
+package dto;
+
+
+import model.Employee;
 
 import java.sql.Date;
 
-public class Customer {
+public class CustomerDto {
     private int id;
     private String firstName;
     private String lastName;
-    private String email;
+    private Date dateOfBirth;
     private String nrc;
     private String phone;
+    private String email;
     private String address;
-    private CustomerStatus status;
-    private Date dateOfBirth;
-    private Date confirmedAt;
-    private Date createdAt;
-    private Date updatedAt;
     private Employee CreatedBy;
     private Employee updatedBy;
 
+    public CustomerDto( String firstName, String lastName, Date dateOfBirth,String nrc,String phone,String email,  String address ){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.nrc = nrc;
+        this.phone = phone;
+        this.email = email;
+        this.address =address;
+    }
     public int getId() {
         return id;
     }
@@ -26,20 +34,20 @@ public class Customer {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getEmail() {
@@ -66,14 +74,6 @@ public class Customer {
         this.phone = phone;
     }
 
-    public CustomerStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(CustomerStatus status) {
-        this.status = status;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -88,30 +88,6 @@ public class Customer {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getConfirmedAt() {
-        return confirmedAt;
-    }
-
-    public void setConfirmedAt(Date confirmedAt) {
-        this.confirmedAt = confirmedAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Employee getCreatedBy() {

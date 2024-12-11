@@ -13,6 +13,7 @@ public class CustomerCreatePage extends JFrame{
     private JLabel emailLabel;
     private JLabel addressLabel;
 
+
     private JTextField firstnameTextField;
     private JTextField lastnameTextField;
     private JTextField dateOfBirthTextField; //ask
@@ -103,4 +104,31 @@ public class CustomerCreatePage extends JFrame{
 
     }
 
+    public JTextField getFirstnameTextField() {
+        return firstnameTextField;
+    }
+
+    public JTextField getLastnameTextField() {
+        return lastnameTextField;
+    }
+
+    public JTextField getDateOfBirthTextField() {
+        return dateOfBirthTextField;
+    }
+
+    public JTextField getNrcTextField() {
+        return nrcTextField;
+    }
+
+    public JTextField getPhoneTextField() {
+        return phoneTextField;
+    }
+
+    public JTextField getEmailTextField() {
+        return emailTextField;
+    }
+
+    public JTextField getAddressTextField() {
+        return addressTextField;
+    }
 }
