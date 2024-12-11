@@ -12,17 +12,21 @@ import java.awt.event.ActionListener;
 
 public class AccountCreateWindow extends JFrame {
 
-    private AccountService accountService;
 
     private JLabel accountNumberLabel;
     private JLabel accountTypeLabel;
     private JLabel currencyLabel;
     private JLabel amountLabel;
     private JLabel customerIdLabel;
+    private JLabel passwordLabel;
+    private JLabel confirmPasswordLabel;
 
     private JTextField accountNumberInput;
     private JTextField amountInput;
     private JTextField customerIdInput;
+
+    private JPasswordField passwordInput;
+    private JPasswordField confirmPasswordInput;
 
     private JComboBox<AccountType> accountTypeCombo;
     private JComboBox<String> currencyCombo;
@@ -31,7 +35,6 @@ public class AccountCreateWindow extends JFrame {
     private JButton clearButton;
 
     public AccountCreateWindow(){
-        this.accountService = new AccountService();
         initializeComponents();
         layoutComponents();
     }
@@ -46,30 +49,21 @@ public class AccountCreateWindow extends JFrame {
         this.currencyLabel =  new JLabel("Currency");
         this.amountLabel = new JLabel("Amount:");
         this.customerIdLabel = new JLabel("Customer ID:");
+        this.passwordLabel = new JLabel("Password:");
+        this.confirmPasswordLabel =  new JLabel("Confirm password:");
 
         this.accountNumberInput =  new JTextField(20);
         this.amountInput =new JTextField(20);
         this.customerIdInput = new JTextField(20);
 
+        this.passwordInput = new JPasswordField(20);
+        this.confirmPasswordInput =  new JPasswordField(20);
+
         this.accountTypeCombo = new JComboBox<>(AccountType.values());
         this.currencyCombo = new JComboBox<>(currencyList);
 
         this.saveButton = new JButton("Save");
-        this.saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleSaveClick();
-            }
-        });
-
         this.clearButton = new JButton("Clear");
-        this.clearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleClearClick();
-            }
-        });
-
         this.setSize(450, 350);
         this.setVisible(true);
 
@@ -102,6 +96,12 @@ public class AccountCreateWindow extends JFrame {
         this.add(this.customerIdLabel, constraints);
 
         constraints.gridy = 5;
+        this.add(this.passwordLabel, constraints);
+
+        constraints.gridy = 6;
+        this.add(this.confirmPasswordLabel, constraints);
+
+        constraints.gridy = 7;
         this.add(this.saveButton, constraints);
 
         //fill the second column
@@ -122,33 +122,127 @@ public class AccountCreateWindow extends JFrame {
         this.add(this.customerIdInput, constraints);
 
         constraints.gridy = 5;
+        this.add(this.passwordInput, constraints);
+
+        constraints.gridy = 6;
+        this.add(this.confirmPasswordInput, constraints);
+
+        constraints.gridy = 7;
         this.add(this.clearButton, constraints);
     }
 
 
-    private void handleSaveClick()  {
-        try {
-            AccountDto accountDto = new AccountDto();
-            accountDto.setAccountType((AccountType) this.accountTypeCombo.getSelectedItem());
-            accountDto.setAccountNumber(this.accountNumberInput.getText());
-            accountDto.setCurrency((String) this.currencyCombo.getSelectedItem());
-            accountDto.setCustomerId(Integer.parseInt(this.customerIdInput.getText()));
-            accountDto.setAmount(Double.parseDouble(this.amountInput.getText()));
-            this.accountService.createAccount(accountDto);
-        }catch (AccountCreateException e){
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }finally {
-            JOptionPane.showMessageDialog(this, "Account created successfully.");
-        }
+
+
+    public JLabel getAccountNumberLabel() {
+        return accountNumberLabel;
     }
 
-    private void handleClearClick(){
-        this.accountNumberInput.setText("");
-        this.accountTypeCombo.setSelectedIndex(0);
-        this.currencyCombo.setSelectedIndex(0);
-        this.amountInput.setText("");
-        this.customerIdInput.setText("");
+    public void setAccountNumberLabel(JLabel accountNumberLabel) {
+        this.accountNumberLabel = accountNumberLabel;
     }
 
+    public JLabel getAccountTypeLabel() {
+        return accountTypeLabel;
+    }
 
+    public void setAccountTypeLabel(JLabel accountTypeLabel) {
+        this.accountTypeLabel = accountTypeLabel;
+    }
+
+    public JLabel getCurrencyLabel() {
+        return currencyLabel;
+    }
+
+    public void setCurrencyLabel(JLabel currencyLabel) {
+        this.currencyLabel = currencyLabel;
+    }
+
+    public JLabel getAmountLabel() {
+        return amountLabel;
+    }
+
+    public void setAmountLabel(JLabel amountLabel) {
+        this.amountLabel = amountLabel;
+    }
+
+    public JLabel getCustomerIdLabel() {
+        return customerIdLabel;
+    }
+
+    public void setCustomerIdLabel(JLabel customerIdLabel) {
+        this.customerIdLabel = customerIdLabel;
+    }
+
+    public JTextField getAccountNumberInput() {
+        return accountNumberInput;
+    }
+
+    public void setAccountNumberInput(JTextField accountNumberInput) {
+        this.accountNumberInput = accountNumberInput;
+    }
+
+    public JTextField getAmountInput() {
+        return amountInput;
+    }
+
+    public void setAmountInput(JTextField amountInput) {
+        this.amountInput = amountInput;
+    }
+
+    public JTextField getCustomerIdInput() {
+        return customerIdInput;
+    }
+
+    public void setCustomerIdInput(JTextField customerIdInput) {
+        this.customerIdInput = customerIdInput;
+    }
+
+    public JComboBox<AccountType> getAccountTypeCombo() {
+        return accountTypeCombo;
+    }
+
+    public void setAccountTypeCombo(JComboBox<AccountType> accountTypeCombo) {
+        this.accountTypeCombo = accountTypeCombo;
+    }
+
+    public JComboBox<String> getCurrencyCombo() {
+        return currencyCombo;
+    }
+
+    public void setCurrencyCombo(JComboBox<String> currencyCombo) {
+        this.currencyCombo = currencyCombo;
+    }
+
+    public JPasswordField getConfirmPasswordInput() {
+        return confirmPasswordInput;
+    }
+
+    public void setConfirmPasswordInput(JPasswordField confirmPasswordInput) {
+        this.confirmPasswordInput = confirmPasswordInput;
+    }
+
+    public JPasswordField getPasswordInput() {
+        return passwordInput;
+    }
+
+    public void setPasswordInput(JPasswordField passwordInput) {
+        this.passwordInput = passwordInput;
+    }
+
+    public JButton getSaveButton() {
+        return saveButton;
+    }
+
+    public void setSaveButton(JButton saveButton) {
+        this.saveButton = saveButton;
+    }
+
+    public JButton getClearButton() {
+        return clearButton;
+    }
+
+    public void setClearButton(JButton clearButton) {
+        this.clearButton = clearButton;
+    }
 }
