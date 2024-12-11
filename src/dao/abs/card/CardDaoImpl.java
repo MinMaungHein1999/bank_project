@@ -19,6 +19,7 @@ public class CardDaoImpl extends CardDao{
     public CardDaoImpl(){
         this.accountDao = new AccountDaoImpl();
     }
+
     @Override
     public String getTableName() {
         return "cards";
