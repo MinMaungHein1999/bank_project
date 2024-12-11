@@ -5,10 +5,15 @@ import dao.abs.employee.EmployeeDao;
 import dao.abs.employee.EmployeeDaoImpl;
 import dao.abs.user_roles.UserRoleDaoImpl;
 import dto.EmployeeDto;
+import exception.AlreadyExistsException;
+import exception.EmptyFieldException;
+import exception.PasswordsDontMatchException;
 import model.Branch;
 import model.Employee;
 import model.UsersRole;
+import service.CheckPasswordsService;
 import service.EmployeeService;
+import service.EmployeeValidationService;
 import view.employee.EmployeeCreateWindow;
 
 import javax.swing.*;
@@ -18,6 +23,8 @@ public class EmployeeCreateController {
     private UserRoleDaoImpl userRoleDao;
     private EmployeeCreateWindow window;
     private EmployeeService empService;
+    private EmployeeValidationService empValidationService;
+    private CheckPasswordsService checkPasswordsService;
     private EmployeeDao employeeDao;
 
     public EmployeeCreateController(){
@@ -26,6 +33,8 @@ public class EmployeeCreateController {
         this.branchDao = new BranchDaoImpl();
         this.window = new EmployeeCreateWindow();
         this.empService = new EmployeeService();
+        this.empValidationService = new EmployeeValidationService();
+        this.checkPasswordsService = new CheckPasswordsService();
         this.employeeDao = new EmployeeDaoImpl();
 
         prepareFormData();
@@ -38,10 +47,16 @@ public class EmployeeCreateController {
 
     private void createBtnAction() {
         EmployeeDto employeeDto =  getEmpInfo();
-        Employee employee = this.empService.createProcess(employeeDto);
-        this.window.dispose();
-        JOptionPane.showMessageDialog(this.window, "Employee Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        new OtpController(employee);
+        try {
+            this.empValidationService.validate(employeeDto);
+            this.checkPasswordsService.isPasswordEquals(employeeDto.getPassword(), employeeDto.getConfirmPassword());
+            Employee employee = this.empService.createProcess(employeeDto);
+            this.window.dispose();
+            JOptionPane.showMessageDialog(this.window, "Employee Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            new OtpController(employee);
+        } catch (AlreadyExistsException | PasswordsDontMatchException | EmptyFieldException e) {
+            JOptionPane.showMessageDialog(this.window, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private EmployeeDto getEmpInfo(){
