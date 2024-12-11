@@ -8,24 +8,24 @@ import model.Account;
 import model.AccountStatus;
 import model.Customer;
 import model.Employee;
+import util.mapper.AccountConverter;
+
+import java.util.List;
 
 public class AccountService {
 
     private AccountDao accountDao;
+
     //private customerDao cus
     public AccountService(){
         this.accountDao = new AccountDaoImpl();
     }
 
-    public void createAccount(AccountDto accountDto) throws AccountCreateException {
+    public Account createAccount(AccountDto accountDto) throws AccountCreateException {
 
-        Employee testEmployee = new Employee();
-        testEmployee.setId(1);
+        Employee testEmployee = AuthenticationService.currentUser;
 
-
-        Customer testCustomer = new Customer();
-        testCustomer.setId(1);
-        testCustomer.setCreatedBy(testEmployee);
+        // Get customer from AccountDto.
 
         Account account = new Account();
         account.setAccountNumber(accountDto.getAccountNumber());
@@ -36,8 +36,31 @@ public class AccountService {
         account.setBalance(accountDto.getAmount());
         account.setCreatedBy(testEmployee);
         account.setUpdatedBy(testEmployee);
-        account.setCustomer(testCustomer);
+        account.setCustomer(null);
         this.accountDao.create(account);
+        return accountDao.findByAccountNumber(accountDto.getAccountNumber());
+    }
+
+    public Account createAccountTesting(AccountDto accountDto){
+
+        // For the time being, I'll pass the dummy data to test that OTP works.
+        Account convertedAccount = AccountConverter.convertToAccount(accountDto);
+        this.accountDao.create(convertedAccount);
+        System.out.println(convertedAccount.getCustomer().getEmail());
+        //return accountDao.findByAccountNumber(accountDto.getAccountNumber());
+        return convertedAccount;
+    }
+
+    public List<Account> getAllAccounts(){
+        return  this.accountDao.getAll();
+    }
+
+    public void deleteAccount(int accountId){
+        this.accountDao.delete(accountId);
+    }
+
+    public void confirmAccount(Account account){
+        this.accountDao.updateConfirmedAt(account);
     }
 
 }

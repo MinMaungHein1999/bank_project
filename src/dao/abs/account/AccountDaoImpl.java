@@ -35,8 +35,8 @@ public class AccountDaoImpl extends AccountDao {
 
     @Override
     public String getInsertQuery() {
-        String queryString = "insert into %s (account_number, account_type, balance, status, currency, created_at, updated_at, created_by, updated_by, customer_id) " +
-                "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String queryString = "insert into %s (account_number, account_type, balance, status, currency, created_at, updated_at, created_by, updated_by, customer_id, password) " +
+                "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         return String.format(queryString, getTableName());
     }
 
@@ -59,8 +59,7 @@ public class AccountDaoImpl extends AccountDao {
 
     @Override
     public void prepareParams(PreparedStatement preparedStatement, Account object) {
-        String queryString = "insert into %s (account_number, account_type, balance, status, currency, created_at, updated_at, created_by, updated_by, customer_id) " +
-                "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
         try {
             preparedStatement.setString(1, object.getAccountNumber());
             preparedStatement.setInt(2, object.getAccountType());
@@ -72,6 +71,7 @@ public class AccountDaoImpl extends AccountDao {
             preparedStatement.setInt(8, object.getCreatedBy().getId());
             preparedStatement.setInt(9, object.getUpdatedBy().getId());
             preparedStatement.setInt(10, object.getCustomer().getId());
+            preparedStatement.setString(11, object.getPassword());
         } catch (SQLException e){
             System.out.println("Error setting up prepared statement.");
         }
@@ -105,6 +105,45 @@ public class AccountDaoImpl extends AccountDao {
         }finally {
             this.connectionFactory.closeConnection();
         }
+    }
+
+    @Override
+    public void updateConfirmedAt(Account account) {
+        try {
+            String query = "Update "+this.getTableName()+" set confirmed_at = ? WHERE account_number = ?";
+            Connection connection = connectionFactory.createConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            Date sqlDate = new Date(System.currentTimeMillis());
+            prepareStatement.setDate(1,sqlDate);
+            prepareStatement.setString(2,account.getAccountNumber());
+            prepareStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+        finally {
+            this.connectionFactory.closeConnection();
+        }
+    }
+
+    @Override
+    public Account findByAccountNumber(String accountNumber) {
+        Account resultAccount = null;
+        try {
+            String query = "SELECT * FROM "+this.getTableName()+" WHERE account_number = ?";
+            Connection connection = connectionFactory.createConnection() ;
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setString(1, accountNumber);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            if(resultSet.next()) {
+                resultAccount = this.converToObject(resultSet);
+            }
+        } catch (SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+        finally {
+            this.connectionFactory.closeConnection();
+        }
+        return resultAccount;
     }
 
 }
