@@ -5,9 +5,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class AccountListWindow extends JFrame {
 
-    private final String[] COLUMN_NAMES = {"Account Number", "Customer Name","Account Type", "Currency", "Amount"};
+    private final String[] COLUMN_NAMES = {"ID","Account Number", "Customer Name","Account Type", "Currency", "Amount"};
     private JTable accountTable;
     private JScrollPane scrollPane;
+    private JPanel buttonPanel;
+    private JButton updateButton;
+    private JButton deleteButton;
 
     public AccountListWindow(){
         initializeComponents();
@@ -15,7 +18,7 @@ public class AccountListWindow extends JFrame {
 
     private void initializeComponents(){
         this.setTitle("Account List");
-        DefaultTableModel tableModel = new DefaultTableModel(new String[][]{}, this.COLUMN_NAMES);
+        DefaultTableModel tableModel = new DefaultTableModel();
         this.accountTable = new JTable(tableModel);
         this.scrollPane = new JScrollPane(this.accountTable);
         this.add(this.scrollPane);
@@ -23,6 +26,47 @@ public class AccountListWindow extends JFrame {
         this.setVisible(true);
     }
 
+    public String[] getCOLUMN_NAMES() {
+        return COLUMN_NAMES;
+    }
 
+    public JTable getAccountTable() {
+        return accountTable;
+    }
 
+    public void setAccountTable(JTable accountTable) {
+        this.accountTable = accountTable;
+    }
+
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public void setScrollPane(JScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
+    }
+
+    public JPanel getButtonPanel() {
+        return buttonPanel;
+    }
+
+    public void setButtonPanel(JPanel buttonPanel) {
+        this.buttonPanel = buttonPanel;
+    }
+
+    public JButton getUpdateButton() {
+        return updateButton;
+    }
+
+    public void setUpdateButton(JButton updateButton) {
+        this.updateButton = updateButton;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+
+    public void setDeleteButton(JButton deleteButton) {
+        this.deleteButton = deleteButton;
+    }
 }

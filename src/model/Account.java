@@ -1,4 +1,5 @@
 package model;
+
 import java.sql.Date;
 
 public class Account {
@@ -7,10 +8,14 @@ public class Account {
     private int accountType;
     private double balance;
     private String currency;
+    private String password;
     private AccountStatus status;
     private Date cratedAt;
     private Date updatedAt;
+    private Date confirmedAt;
     private Employee CreatedBy;
+
+
     private Employee updatedBy;
     private Customer customer;
 
@@ -54,6 +59,14 @@ public class Account {
         this.currency = currency;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public AccountStatus getStatus() {
         return status;
     }
@@ -77,6 +90,15 @@ public class Account {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public Date getConfirmedAt() {
+        return confirmedAt;
+    }
+
+    public void setConfirmedAt(Date confirmedAt) {
+        this.confirmedAt = confirmedAt;
+    }
+
 
     public Employee getCreatedBy() {
         return CreatedBy;
