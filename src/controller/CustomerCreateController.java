@@ -43,7 +43,7 @@ public class CustomerCreateController {
         String phone = this.page.getPhoneTextField().getText();
         String email = this.page.getEmailTextField().getText();
         String address = this.page.getAddressTextField().getText();
-        CustomerDto customerDto = new CustomerDto(firstName, lastName, dateOfBirth, nrc, phone, email,  address );
-        return customerDto;
+//        CustomerDto customerDto = new CustomerDto(firstName, lastName, dateOfBirth, nrc, phone, email,  address );
+        return null;
         }
 }
