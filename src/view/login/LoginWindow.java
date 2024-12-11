@@ -1,5 +1,7 @@
 package view.login;
 
+import dao.abs.branch.BranchDaoImpl;
+import model.Branch;
 import view.customer.CustomerCreatePage;
 
 import javax.swing.*;
@@ -14,7 +16,7 @@ public class LoginWindow extends JFrame  {
     private JButton signupBtn;
 
     private JButton loginBtn;
-    //private JComboBox<> branchComboBox;
+    private JComboBox<Branch> branchesComboBox;
     private JFrame frame;
 
     public LoginWindow(){
@@ -36,7 +38,7 @@ public class LoginWindow extends JFrame  {
         frame.add(this.branchlabel, constraints);
 
         constraints.gridx = 1;
-      //  frame.add(this.branchComboBox, constraints);
+        frame.add(this.branchesComboBox, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -67,8 +69,7 @@ public class LoginWindow extends JFrame  {
         this.frame = new JFrame("Login Window");
 
         this.branchlabel = new JLabel(" Branches : ");
-       // List<Branch> branchList= this.branchDao.getAll();
-        //this.branchComboBox = new JComboBox<>(String["Editor","Moderator",]);
+        this.branchesComboBox = new JComboBox<>();
 
         this.usernamelabel = new JLabel(" Username : ");
         this.usernameTF = new JTextField(15);
@@ -97,5 +98,7 @@ public class LoginWindow extends JFrame  {
         return signupBtn;
     }
 
-
+    public JComboBox<Branch> getBranches() {
+        return branchesComboBox;
+    }
 }
