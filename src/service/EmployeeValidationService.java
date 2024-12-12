@@ -19,8 +19,8 @@ public class EmployeeValidationService {
 
     public void validate(EmployeeDto employeeDto) throws AlreadyExistsException, EmptyFieldException {
         List<String> errors = new ArrayList<>();
-        checkExist(employeeDto, errors);
         checkRequiredField(employeeDto, errors);
+        checkExist(employeeDto, errors);
     }
 
     private void checkExist(EmployeeDto employeeDto, List<String> errors) throws AlreadyExistsException{
