@@ -3,6 +3,7 @@ package util.mapper;
 import dto.EmployeeDto;
 import model.Employee;
 import model.EmployeeStatus;
+import util.PasswordUtil;
 
 public class EmployeeConverter {
 

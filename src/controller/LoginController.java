@@ -30,7 +30,7 @@ public class LoginController {
         String password = this.window.getPassword();
         try {
             this.authenticationService.loginWithUsername(username, password);
-
+            new HomeController();
         }catch (Exception e){
             JOptionPane.showMessageDialog(this.window, e.getMessage());
         }

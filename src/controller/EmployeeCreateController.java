@@ -11,6 +11,7 @@ import exception.PasswordsDontMatchException;
 import model.Branch;
 import model.Employee;
 import model.UsersRole;
+import policy.EmployeePolicy;
 import service.CheckPasswordsService;
 import service.EmployeeService;
 import service.EmployeeValidationService;
@@ -50,6 +51,7 @@ public class EmployeeCreateController {
         try {
             this.empValidationService.validate(employeeDto);
             this.checkPasswordsService.isPasswordEquals(employeeDto.getPassword(), employeeDto.getConfirmPassword());
+            EmployeePolicy policy = new EmployeePolicy();
             Employee employee = this.empService.createProcess(employeeDto);
             this.window.dispose();
             JOptionPane.showMessageDialog(this.window, "Employee Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);

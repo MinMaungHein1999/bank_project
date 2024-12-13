@@ -4,6 +4,7 @@ import dao.abs.branch.BranchDao;
 import dao.abs.branch.BranchDaoImpl;
 import dao.abs.user_roles.UserRoleDao;
 import dao.abs.user_roles.UserRoleDaoImpl;
+import exception.AutheticationFailException;
 import model.Branch;
 import model.Employee;
 import model.EmployeeStatus;
@@ -223,12 +224,50 @@ public class EmployeeDaoImpl extends EmployeeDao {
 
     @Override
     public void updateLoginToken(Employee employee) {
+        String query = "update "+this.getTableName()+" set login_token = ? where id = ?";
+        try {
+            Connection connection = connectionFactory.createConnection() ;
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            Date sqlDate = new Date(System.currentTimeMillis());
+            prepareStatement.setString(1, employee.getLoginToken());
+            prepareStatement.setInt(2, employee.getId());
+            prepareStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+        finally {
+            this.connectionFactory.closeConnection();
+        }
 
     }
 
 
     @Override
-    public void validateLoginToken(Employee employee){
+    public Employee validateLoginToken(Employee currentUser)throws AutheticationFailException{
+        String query = "select * from "+this.getTableName()+" where id = ? AND login_token = ?";
+        Employee object = null;
+        try {
+            if(currentUser == null){
+                throw new AutheticationFailException("Unauthorized User!!!");
+            }
+            Connection connection = connectionFactory.createConnection() ;
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setInt(1, currentUser.getId());
+            prepareStatement.setString(2, currentUser.getLoginToken());
+            ResultSet resultSet = prepareStatement.executeQuery();
+            if(resultSet.next()) {
+                object = this.converToObject(resultSet);
+                return object;
+            }else{
+                throw new AutheticationFailException("Invalid Login Token For user Id: "+ currentUser.getId());
+            }
+        } catch (SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+        finally {
+            this.connectionFactory.closeConnection();
+        }
+        return object;
 
     }
 

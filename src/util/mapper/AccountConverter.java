@@ -5,6 +5,7 @@ import model.Account;
 import model.AccountStatus;
 import model.Customer;
 import model.Employee;
+import util.PasswordUtil;
 
 public class AccountConverter {
 

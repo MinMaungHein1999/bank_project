@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Employee {
     private int id;
     private String username;
+    private String loginToken;
     private String email;
     private String password;
     private String phoneNumber;
@@ -37,6 +38,18 @@ public class Employee {
         this.updatedAt = updatedAt;
         CreatedBy = createdBy;
         this.updatedBy = updatedBy;
+    }
+
+    public boolean isAdmin(){
+       return this.usersRole.getName().equalsIgnoreCase("admin");
+    }
+
+    public boolean isViewer(){
+        return this.usersRole.getName().equalsIgnoreCase("viewer");
+    }
+
+    public boolean isEditor(){
+        return this.usersRole.getName().equalsIgnoreCase("editor");
     }
 
     public int getId() {
@@ -157,6 +170,20 @@ public class Employee {
 
     public void setUpdatedBy(Employee updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public String getLoginToken() {
+        return loginToken;
+    }
+
+    public void setLoginToken(String loginToken) {
+        this.loginToken = loginToken;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Employee empObj =(Employee) obj;
+        return  empObj.id == this.id;
     }
 
     @Override
