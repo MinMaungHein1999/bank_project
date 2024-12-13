@@ -28,6 +28,7 @@ public class OtpController {
             System.out.println(employee.toString());
             this.employeeConfirmService.confirm(this.employee);
             JOptionPane.showMessageDialog(this.otpConfirmationForm, "Otp Confirmation Successful!!");
+            new LoginController();
         }else{
             this.otpConfirmationForm.setMessage("Invalid OTP Code!!!");
         }

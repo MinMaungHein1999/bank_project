@@ -1,7 +1,8 @@
 package model;
 
 import model.Account;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.sql.Date;
 
 public class Card {
@@ -37,6 +38,9 @@ public class Card {
     }
 
     public Date getCardExpireDate() {
+//        LocalDate localDate = cardExpireDate.toLocalDate();
+//        LocalDate yearMonthOnly = LocalDate.of(localDate.getYear(), localDate.getMonth(), 1);
+//        return Date.valueOf(yearMonthOnly);
         return cardExpireDate;
     }
 

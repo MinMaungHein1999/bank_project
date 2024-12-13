@@ -2,6 +2,7 @@ package service;
 
 import dao.abs.employee.EmployeeDaoImpl;
 import model.Employee;
+import util.mapper.PasswordUtil;
 
 public class AuthenticationService {
 
@@ -18,6 +19,7 @@ public class AuthenticationService {
     }
 
     public void loginWithUsername(String username, String password) throws Exception {
+        password = PasswordUtil.encryptPassword(password);
         Employee employee = this.employeeDao.validateEmployee(username, password);
         if(employee!=null){
             currentUser = employee;
