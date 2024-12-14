@@ -4,17 +4,17 @@ import java.util.Date;
 
 public class CardDto {
     private String number;
-    private int card_type;
+    private String card_type;
     private Date expire_date;
     private String security_code;
-    private int account_id;
 
-    public CardDto(String number, int card_type, Date expire_date, String security_code, int account_id) {
+
+    public CardDto(String number, String card_type, Date expire_date, String security_code) {
         this.number = number;
         this.card_type = card_type;
         this.expire_date = expire_date;
         this.security_code = security_code;
-        this.account_id = account_id;
+
     }
 
     public String getNumber() {
@@ -25,11 +25,11 @@ public class CardDto {
         this.number = number;
     }
 
-    public int getCard_type() {
+    public String getCard_type() {
         return card_type;
     }
 
-    public void setCard_type(int card_type) {
+    public void setCard_type(String card_type) {
         this.card_type = card_type;
     }
 
@@ -49,12 +49,7 @@ public class CardDto {
         this.security_code = security_code;
     }
 
-    public int getAccount_id() {
-        return account_id;
-    }
 
-    public void setAccount_id(int account_id) {
-        this.account_id = account_id;
-    }
+
 
 }
