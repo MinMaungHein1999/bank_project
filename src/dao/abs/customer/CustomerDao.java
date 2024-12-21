@@ -5,6 +5,7 @@ import model.Customer;
 
 public abstract class CustomerDao extends AbstractDao<Customer> {
     public abstract Customer findByName(String name);
+    public abstract Customer findByEmail(String email);
     public abstract boolean isEmailExists(String email);
     public abstract boolean isPhoneExists(String phoneNumber);
 

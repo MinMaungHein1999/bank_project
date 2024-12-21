@@ -1,6 +1,8 @@
 package dto;
 
 
+import model.Customer;
+import model.CustomerStatus;
 import model.Employee;
 
 import java.sql.Date;
@@ -14,6 +16,10 @@ public class CustomerDto {
     private String phone;
     private String email;
     private String address;
+    private CustomerStatus customerStatus;
+
+
+
     private Employee CreatedBy;
     private Employee updatedBy;
 
@@ -104,5 +110,30 @@ public class CustomerDto {
 
     public void setUpdatedBy(Employee updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public CustomerStatus getCustomerStatus() {
+        return customerStatus;
+    }
+
+    public void setCustomerStatus(CustomerStatus customerStatus) {
+        this.customerStatus = customerStatus;
+    }
+
+
+    @Override
+    public String toString() {
+        return "CustomerDto{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", nrc='" + nrc + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", CreatedBy=" + CreatedBy +
+                ", updatedBy=" + updatedBy +
+                '}';
     }
 }

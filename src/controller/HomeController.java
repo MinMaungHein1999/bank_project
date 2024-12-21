@@ -18,6 +18,11 @@ public class HomeController extends BaseController{
         homeWindow.setEmployeeManagementBtnAction(e -> handleEmployeeManagementAction());
         homeWindow.setTransactionManagementBtn(e -> handleTransactionManagementAction());
         homeWindow.setAccountManagementBtnAction(e -> handleAccountManagementAction());
+        homeWindow.setCustomerManagementBtnAction(e -> hadleCustomerManagementAction());
+    }
+
+    private void hadleCustomerManagementAction() {
+        new CustomerCreateController();
     }
 
     private void handleAccountManagementAction() {
@@ -29,8 +34,6 @@ public class HomeController extends BaseController{
     }
 
     private void handleEmployeeManagementAction() {
-        EmployeePolicy policy = new EmployeePolicy();
-        policy.canNew(null, this.currentUser);
         new EmployeeCreateController();
     }
 

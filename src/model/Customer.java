@@ -18,6 +18,27 @@ public class Customer {
     private Employee CreatedBy;
     private Employee updatedBy;
 
+    public Customer(){
+
+    }
+
+    public Customer(int id, String firstName, String lastName, String email, String nrc, String phone, String address, CustomerStatus status, Date dateOfBirth, Date confirmedAt, Date createdAt, Date updatedAt, Employee createdBy, Employee updatedBy) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.nrc = nrc;
+        this.phone = phone;
+        this.address = address;
+        this.status = status;
+        this.dateOfBirth = dateOfBirth;
+        this.confirmedAt = confirmedAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        CreatedBy = createdBy;
+        this.updatedBy = updatedBy;
+    }
+
     public int getId() {
         return id;
     }
@@ -129,4 +150,25 @@ public class Customer {
     public void setUpdatedBy(Employee updatedBy) {
         this.updatedBy = updatedBy;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", nrc='" + nrc + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", status=" + status +
+                ", dateOfBirth=" + dateOfBirth +
+                ", confirmedAt=" + confirmedAt +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", CreatedBy=" + CreatedBy +
+                ", updatedBy=" + updatedBy +
+                '}';
+    }
+
 }

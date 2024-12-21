@@ -1,11 +1,20 @@
 package dao.abs.customer;
 
+import dao.abs.employee.EmployeeDaoImpl;
 import model.Customer;
 import model.CustomerStatus;
+import model.Employee;
+import dao.abs.employee.EmployeeDao;
 
 import java.sql.*;
 
 public class CustomerDaoImpl extends CustomerDao{
+    private EmployeeDao employeeDaoImpl;
+
+    public CustomerDaoImpl(){
+        this.employeeDaoImpl = new EmployeeDaoImpl();
+    }
+
     @Override
     public String getTableName() {
         return "customers";
@@ -25,10 +34,13 @@ public class CustomerDaoImpl extends CustomerDao{
             int status = resultset.getInt("status");
             Date dateOfBirth = resultset.getDate("date_of_birth");
             Date confirmedAt = resultset.getDate("confirmed_at");
-            Date cratedAt = resultset.getDate("created_at");
+            Date createdAt = resultset.getDate("created_at");
             Date updatedAt = resultset.getDate("updated_at");
-            int CreatedBy = resultset.getInt("created_by");
-            int updatedBy = resultset.getInt("updated_by");
+            int createdById = resultset.getInt("created_by");
+            int updatedById = resultset.getInt("updated_by");
+            Employee createdBy = this.employeeDaoImpl.getById(createdById);
+            Employee updatedBy = this.employeeDaoImpl.getById(updatedById);
+            customer = new Customer(id, firstName, lastName, email, nrc, phone, address, CustomerStatus.fromInt(status), dateOfBirth, confirmedAt, createdAt, updatedAt, createdBy, updatedBy);
         }catch(
     SQLException e) {
         System.out.print("SQL Exception for : "+e.getMessage());
@@ -76,6 +88,25 @@ public class CustomerDaoImpl extends CustomerDao{
             this.connectionFactory.closeConnection();
         }
         return customer;
+    }
+
+    @Override
+    public Customer findByEmail(String email) {
+        try{
+            String query = "SELECT * FROM "+this.getTableName()+" WHERE email = ?";
+            Connection connection = connectionFactory.createConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            Customer customer = this.converToObject(resultSet);
+            return customer;
+        }catch (SQLException e) {
+            System.out.print("SQL Exception for Find By Email : " + e.getMessage());
+        }finally {
+            this.connectionFactory.closeConnection();
+        }
+        return null;
     }
 
     @Override

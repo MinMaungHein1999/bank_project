@@ -10,8 +10,7 @@ public class HomeWindow extends JFrame {
     private JButton accountManagementBtn;
     private JButton employeeManagementBtn;
     private JButton transactionManagementBtn;
-
-
+    private JButton customerManagementBtn;
 
     private JButton cardManagementBtn;
 
@@ -34,11 +33,13 @@ public class HomeWindow extends JFrame {
         this.employeeManagementBtn = new JButton("Employee Management");
         this.transactionManagementBtn = new JButton("Transaction Management");
         this.cardManagementBtn = new JButton("Card Management");
+        this.customerManagementBtn = new JButton("Customer Management");
 
         buttonPanel.add(createButton(this.accountManagementBtn));
         buttonPanel.add(createButton(this.employeeManagementBtn));
         buttonPanel.add(createButton(this.cardManagementBtn));
         buttonPanel.add(createButton(this.transactionManagementBtn));
+        buttonPanel.add(createButton(this.customerManagementBtn));
 
         this.add(buttonPanel, BorderLayout.CENTER);
         JLabel footerLabel = new JLabel("Select an option to manage", JLabel.CENTER);
@@ -51,6 +52,10 @@ public class HomeWindow extends JFrame {
     private static JButton createButton(JButton button) {
         button.setFont(new Font("Arial", Font.PLAIN, 18));
         return button;
+    }
+
+    public void setCustomerManagementBtnAction(ActionListener e){
+        this.customerManagementBtn.addActionListener(e);
     }
 
     public void setCardManagementBtnAction(ActionListener e){

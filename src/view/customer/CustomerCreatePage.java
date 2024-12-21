@@ -1,7 +1,13 @@
 package view.customer;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+import util.DateLabelFormatter;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Properties;
 
 public class CustomerCreatePage extends JFrame{
     private JPanel registerPanel;
@@ -16,7 +22,11 @@ public class CustomerCreatePage extends JFrame{
 
     private JTextField firstnameTextField;
     private JTextField lastnameTextField;
-    private JTextField dateOfBirthTextField; //ask
+    private SqlDateModel dateModel;
+
+
+    private JDatePanelImpl datePanel;
+    private JDatePickerImpl datePicker;
     private JTextField nrcTextField;
     private JTextField phoneTextField;
     private JTextField emailTextField;
@@ -56,7 +66,7 @@ public class CustomerCreatePage extends JFrame{
         this.registerPanel.add(lastnameTextField);
 
         this.registerPanel.add(dateOfBirthLabel);
-        this.registerPanel.add(dateOfBirthTextField);
+        this.registerPanel.add(this.datePicker);
 
         this.registerPanel.add(nrcLabel);
         this.registerPanel.add(nrcTextField);
@@ -85,7 +95,9 @@ public class CustomerCreatePage extends JFrame{
         this.lastnameTextField = new JTextField();
 
         this.dateOfBirthLabel = new JLabel("Date Of Birth : ");
-        this.dateOfBirthTextField = new JTextField();
+        this.dateModel = new SqlDateModel();
+        this.datePanel = new JDatePanelImpl(dateModel, new Properties());
+        this.datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
         this.nrcLabel = new JLabel("NRC Card : ");
         this.nrcTextField = new JTextField();
@@ -112,10 +124,6 @@ public class CustomerCreatePage extends JFrame{
         return lastnameTextField;
     }
 
-    public JTextField getDateOfBirthTextField() {
-        return dateOfBirthTextField;
-    }
-
     public JTextField getNrcTextField() {
         return nrcTextField;
     }
@@ -130,5 +138,22 @@ public class CustomerCreatePage extends JFrame{
 
     public JTextField getAddressTextField() {
         return addressTextField;
+    }
+
+    public JDatePickerImpl getDatePicker() {
+        return datePicker;
+    }
+
+    public JDatePanelImpl getDatePanel() {
+        return datePanel;
+    }
+
+    public void setDatePanel(JDatePanelImpl datePanel) {
+        this.datePanel = datePanel;
+    }
+
+
+    public void setDatePicker(JDatePickerImpl datePicker) {
+        this.datePicker = datePicker;
     }
 }

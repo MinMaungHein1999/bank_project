@@ -13,6 +13,7 @@ public class CustomerConverter {
         customer.setNrc(customerDto.getNrc());
         customer.setPhone(customerDto.getPhone());
         customer.setEmail(customerDto.getEmail());
+        customer.setStatus(customerDto.getCustomerStatus());
         customer.setAddress(customerDto.getAddress());
         return customer;
 

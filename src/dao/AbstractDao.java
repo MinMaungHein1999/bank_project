@@ -41,18 +41,22 @@ public abstract class AbstractDao<T> {
             Connection connection = connectionFactory.createConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             this.prepareParams(preparedStatement, object);
-            preparedStatement.executeUpdate();
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            System.out.print(generatedKeys);
-            if(generatedKeys.next()){
-                System.out.print("generatedKeys : " + generatedKeys.getInt(1));
-                createdObject = this.getById(generatedKeys.getInt(1));
+            int affectedRows = preparedStatement.executeUpdate();
+            if(affectedRows > 0){
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if(generatedKeys.next()){
+                    int generatedKeysInt = generatedKeys.getInt(1);
+                    createdObject = this.getById(generatedKeysInt);
+                }
+            } else {
+                System.out.println("Insert Fails on rows affected");
             }
+
             this.connectionFactory.closeConnection();
             System.out.print("Created Object : "+ createdObject);
             return createdObject;
         }catch(SQLException e) {
-            System.out.print("SQL Exception for : "+e.getMessage());
+            System.out.println("SQL Exception for : "+e.getMessage());
         }finally{
             this.connectionFactory.closeConnection();
         }
