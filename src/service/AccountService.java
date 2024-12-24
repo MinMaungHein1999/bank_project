@@ -8,6 +8,7 @@ import model.Account;
 import model.AccountStatus;
 import model.Customer;
 import model.Employee;
+import util.PasswordUtil;
 import util.mapper.AccountConverter;
 
 import java.util.List;
@@ -55,12 +56,26 @@ public class AccountService {
         return  this.accountDao.getAll();
     }
 
-    public void deleteAccount(int accountId){
-        this.accountDao.delete(accountId);
+    public void suspendAccount(int accountId){
+        this.accountDao.suspendAccount(accountId, AccountStatus.SUSPENDED.getValue());
     }
 
     public void confirmAccount(Account account){
         this.accountDao.updateConfirmedAt(account);
     }
+
+    public void updatePassword(String password, String confirmPassword, String accountNumber){
+        if (password.equals(confirmPassword)){
+            this.accountDao.updateAccountPasswordByAccountNumber(PasswordUtil.encryptPassword(password), accountNumber);
+        }else{
+            throw new IllegalArgumentException("Passwords do no match!");
+        }
+    }
+
+    public Account getAccountById(int id){
+        return this.accountDao.getById(id);
+    }
+
+
 
 }

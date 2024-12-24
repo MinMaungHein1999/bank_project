@@ -10,4 +10,6 @@ public abstract class AccountDao extends AbstractDao<Account> {
     public abstract void updateBalance(Account account);
     public abstract void updateConfirmedAt(Account account);
     public abstract Account findByAccountNumber(String accountNumber);
+    public abstract void suspendAccount(int id, int accountStatus);
+    public abstract void updateAccountPasswordByAccountNumber(String password, String accountNumber);
 }

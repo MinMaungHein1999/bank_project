@@ -41,7 +41,7 @@ public class AccountCreateWindow extends JFrame {
 
     private void initializeComponents(){
         this.setTitle("Create Account");
-
+        //Need to encapsulate currency
         String[] currencyList = new String[]{"MMK", "THB", "USD", "JPY"};
 
         this.accountNumberLabel =  new JLabel("Account number:");

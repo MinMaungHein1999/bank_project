@@ -163,4 +163,38 @@ public class AccountDaoImpl extends AccountDao {
         return resultAccount;
     }
 
+    @Override
+    public void suspendAccount(int id, int accountStatus) {
+        try {
+            String query = "update "+getTableName()+" set status = ? where id = ?";
+            Connection connection = connectionFactory.createConnection() ;
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setInt(1, accountStatus);
+            prepareStatement.setInt(2, id);
+            prepareStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+        finally {
+            this.connectionFactory.closeConnection();
+        }
+    }
+
+    @Override
+    public void updateAccountPasswordByAccountNumber(String password, String accountNumber) {
+        try {
+            String query = "update "+getTableName()+" set password = ? where account_number = ?";
+            Connection connection = connectionFactory.createConnection() ;
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setString(1, password);
+            prepareStatement.setString(2, accountNumber);
+            prepareStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.print("SQL Exception for : "+e.getMessage());
+        }
+        finally {
+            this.connectionFactory.closeConnection();
+        }
+    }
+
 }
