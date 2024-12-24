@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class AccountListWindow extends JFrame {
 
-    private final String[] COLUMN_NAMES = {"ID","Account Number", "Customer Name","Account Type", "Currency", "Amount"};
+    private final String[] COLUMN_NAMES = {"ID","Account Number", "Customer Name","Account Type", "Currency", "Balance"};
     private JTable accountTable;
     private JScrollPane scrollPane;
     private JPanel buttonPanel;
@@ -18,14 +18,17 @@ public class AccountListWindow extends JFrame {
 
     private void initializeComponents(){
         this.setTitle("Account List");
-        DefaultTableModel tableModel = new DefaultTableModel();
-        this.accountTable = new JTable(tableModel);
+        this.accountTable = new JTable();
         this.scrollPane = new JScrollPane(this.accountTable);
         this.add(this.scrollPane);
         this.setSize(600, 400);
         this.setVisible(true);
     }
 
+    public void setTableData(String[][] tableData){
+        DefaultTableModel tableModel = new DefaultTableModel(tableData,this.COLUMN_NAMES);
+        this.accountTable.setModel(tableModel);
+    }
     public String[] getCOLUMN_NAMES() {
         return COLUMN_NAMES;
     }

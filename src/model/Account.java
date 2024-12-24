@@ -123,4 +123,16 @@ public class Account {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public String[] prepareDataForAccountList(){
+        String[] dataArray = new String[6];
+        dataArray[0] = String.valueOf(this.id);
+        dataArray[1] = this.accountNumber;
+        dataArray[2] = this.customer.getFirstName() + " " + this.customer.getLastName();
+        dataArray[3] = AccountType.fromInt(this.accountType).toString();
+        dataArray[4] = this.currency;
+        dataArray[5] = String.valueOf(this.balance);
+        return dataArray;
+    }
+
 }

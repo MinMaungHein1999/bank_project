@@ -11,23 +11,24 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AccountCreateController {
+public class AccountCreateController extends BaseController{
 
     private final AccountService ACCOUNT_SERVICE = new AccountService();
 
 
-    private AccountCreateWindow accountCreateWindow;
+    private static AccountCreateWindow accountCreateWindow;
 
     public AccountCreateController() {
-        this.accountCreateWindow = new AccountCreateWindow();
-        this.accountCreateWindow.getSaveButton().addActionListener(new ActionListener() {
+        super(accountCreateWindow);
+        accountCreateWindow = new AccountCreateWindow();
+        accountCreateWindow.getSaveButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleSaveClick();
             }
         });
 
-        this.accountCreateWindow.getClearButton().addActionListener(new ActionListener() {
+        accountCreateWindow.getClearButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleClearClick();
@@ -53,12 +54,12 @@ public class AccountCreateController {
             if (validateAccountCreateInput(accountDto)) {
 
                 new AccountOtpController(this.ACCOUNT_SERVICE.createAccountTesting(accountDto));
-                JOptionPane.showMessageDialog(this.accountCreateWindow, "Account created successfully.");
+                JOptionPane.showMessageDialog(accountCreateWindow, "Account created successfully.");
             } else {
                 throw new AccountCreateException("Invalid Input.");
             }
         } catch (AccountCreateException e) {
-            JOptionPane.showMessageDialog(this.accountCreateWindow, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(accountCreateWindow, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -66,23 +67,23 @@ public class AccountCreateController {
 
     private AccountDto mapInputsToAccountDto() {
         AccountDto accountDto = new AccountDto();
-        accountDto.setAccountType((AccountType) this.accountCreateWindow.getAccountTypeCombo().getSelectedItem());
-        accountDto.setAccountNumber(this.accountCreateWindow.getAccountNumberInput().getText());
-        accountDto.setCurrency((String) this.accountCreateWindow.getCurrencyCombo().getSelectedItem());
-        accountDto.setCustomerId(Integer.parseInt(this.accountCreateWindow.getCustomerIdInput().getText()));
-        accountDto.setAmount(Double.parseDouble(this.accountCreateWindow.getAmountInput().getText()));
-        accountDto.setPassword(String.valueOf(this.accountCreateWindow.getPasswordInput().getPassword()));
-        accountDto.setConfirmPassword(String.valueOf(this.accountCreateWindow.getConfirmPasswordInput().getPassword()));
+        accountDto.setAccountType((AccountType) accountCreateWindow.getAccountTypeCombo().getSelectedItem());
+        accountDto.setAccountNumber(accountCreateWindow.getAccountNumberInput().getText());
+        accountDto.setCurrency((String) accountCreateWindow.getCurrencyCombo().getSelectedItem());
+        accountDto.setCustomerId(Integer.parseInt(accountCreateWindow.getCustomerIdInput().getText()));
+        accountDto.setAmount(Double.parseDouble(accountCreateWindow.getAmountInput().getText()));
+        accountDto.setPassword(String.valueOf(accountCreateWindow.getPasswordInput().getPassword()));
+        accountDto.setConfirmPassword(String.valueOf(accountCreateWindow.getConfirmPasswordInput().getPassword()));
         return accountDto;
     }
 
     private void handleClearClick() {
-        this.accountCreateWindow.getAccountNumberInput().setText("");
-        this.accountCreateWindow.getAccountTypeCombo().setSelectedIndex(0);
-        this.accountCreateWindow.getCurrencyCombo().setSelectedIndex(0);
-        this.accountCreateWindow.getAmountInput().setText("");
-        this.accountCreateWindow.getCustomerIdInput().setText("");
-        this.accountCreateWindow.getPasswordInput().setText("");
-        this.accountCreateWindow.getConfirmPasswordInput().setText("");
+        accountCreateWindow.getAccountNumberInput().setText("");
+        accountCreateWindow.getAccountTypeCombo().setSelectedIndex(0);
+        accountCreateWindow.getCurrencyCombo().setSelectedIndex(0);
+        accountCreateWindow.getAmountInput().setText("");
+        accountCreateWindow.getCustomerIdInput().setText("");
+        accountCreateWindow.getPasswordInput().setText("");
+        accountCreateWindow.getConfirmPasswordInput().setText("");
     }
 }

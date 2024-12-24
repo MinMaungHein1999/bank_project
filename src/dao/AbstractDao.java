@@ -113,6 +113,7 @@ public abstract class AbstractDao<T> {
         T object = null;
         try {
             String query = "SELECT * FROM "+this.getTableName()+" WHERE id = ?";
+            System.out.println(query);
             Connection connection = connectionFactory.createConnection() ;
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             prepareStatement.setInt(1, id);

@@ -1,11 +1,25 @@
 package dao.abs.account;
 
+import dao.abs.customer.CustomerDao;
+import dao.abs.customer.CustomerDaoImpl;
+import dao.abs.employee.EmployeeDao;
+import dao.abs.employee.EmployeeDaoImpl;
 import model.Account;
 import model.AccountStatus;
+import model.Employee;
 
 import java.sql.*;
 
 public class AccountDaoImpl extends AccountDao {
+
+    private CustomerDao customerDao;
+    private EmployeeDao employeeDao;
+
+    public AccountDaoImpl(){
+        this.customerDao = new CustomerDaoImpl();
+        this.employeeDao = new EmployeeDaoImpl();
+    }
+
     @Override
     public String getTableName() {
         return "accounts";
@@ -23,9 +37,12 @@ public class AccountDaoImpl extends AccountDao {
             resultAccount.setStatus(AccountStatus.fromInt(resultset.getInt("status")));
             resultAccount.setCratedAt(resultset.getDate("created_at"));
             resultAccount.setUpdatedAt(resultset.getDate("updated_at"));
-//            private Employee CreatedBy;
-//            private Employee updatedBy;
-
+            resultAccount.setCreatedBy(this.employeeDao.getById(resultset.getInt("created_by")));
+            resultAccount.setUpdatedBy(this.employeeDao.getById(resultset.getInt("updated_by")));
+            resultAccount.setCustomer(this.customerDao.getById(resultset.getInt("customer_id")));
+            resultAccount.setPassword(resultset.getString("password"));
+            resultAccount.setConfirmedAt(resultAccount.getConfirmedAt());
+            System.out.println(this.customerDao.getById(resultset.getInt("customer_id")).getFirstName());
             return resultAccount;
         } catch (SQLException e) {
             System.out.println("Error getting client.");
